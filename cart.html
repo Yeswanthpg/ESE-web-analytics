@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - E-commerce Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Your Cart</h1>
+    <section id="cart-summary">
+        <ul id="cart-items-list"></ul>
+        <p>Total: $<span id="cart-total">0.00</span></p>
+        <button id="purchase-button" onclick="completePurchase()">Purchase</button>
+    </section>
+
+    <script>
+        // Load cart data from local storage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Display cart items and calculate total
+        function displayCart() {
+            const cartItemsList = document.getElementById('cart-items-list');
+            const cartTotal = document.getElementById('cart-total');
+            cartItemsList.innerHTML = '';
+            let total = 0;
+
+            // Loop through cart items and create a list element for each
+            cart.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Product ID: ${item.productId}, Quantity: ${item.quantity}`;
+                cartItemsList.appendChild(listItem);
+
+                // Calculate total assuming a fixed price for demo purposes
+                const pricePerItem = item.productId === 'SKU_12345' ? 89.99 : 59.99;
+                total += item.quantity * pricePerItem;
+            });
+
+            // Display the total price
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        // Function to complete the purchase
+        function completePurchase() {
+            alert('Thank you for your purchase!');
+            cart = []; // Clear the cart
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage
+            displayCart(); // Refresh the cart display
+        }
+
+        // Initialize cart display
+        displayCart();
+    </script>
+</body>
+</html>
